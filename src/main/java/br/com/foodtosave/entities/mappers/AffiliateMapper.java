@@ -11,7 +11,7 @@ public class AffiliateMapper implements RowMapper<Affiliate> {
     public Affiliate mapRow(ResultSet resultSet, int i) throws SQLException {
 
         Affiliate affiliate = new Affiliate();
-        affiliate.setId(resultSet.getInt("affiliate_id"));
+        affiliate.setId(resultSet.getInt("id"));
         affiliate.setCity(resultSet.getString("city"));
         affiliate.setName(resultSet.getString("name"));
         affiliate.setTypeCompany(resultSet.getString("type_company"));

@@ -13,7 +13,7 @@ import org.springframework.jdbc.datasource.DriverManagerDataSource;
 @Configuration
 @ComponentScan("br.com.foodtosave")
 @PropertySource("classpath:database.properties")
-public class AppConfig {
+public class WebAppConfig {
 
     @Autowired
     Environment environment;
@@ -33,4 +33,3 @@ public class AppConfig {
         return driverManagerDataSource;
     }
 }
-

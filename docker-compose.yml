@@ -1,0 +1,27 @@
+version: '2'
+
+services:
+  db_foodtosave:
+    image: 'postgres:13.1-alpine'
+    container_name: db_foodtosave
+    environment:
+      - POSTGRES_USER=gabriel
+      - POSTGRES_PASSWORD=123456
+      - POSTGRES_DB=foodtosave
+    volumes:
+      - ./sql/create_table.sql:/docker-entrypoint-initdb.d/create_table.sql
+  app:
+    image: 'foodtosave-app:latest'
+    build:
+      context: .
+    ports:
+      - "8080:8080"
+    container_name: app
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://db_foodtosave:5432/foodtosave
+      - SPRING_DATASOURCE_USERNAME=gabriel
+      - SPRING_DATASOURCE_PASSWORD=123456
+      - POSTGRES_PASSWORD=123456
+      - POSTGRES_DB=foodtosave
+    depends_on:
+      - db_foodtosave

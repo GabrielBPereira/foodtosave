@@ -1,14 +1,8 @@
 package br.com.foodtosave.controller;
 
-import br.com.foodtosave.FoodToSaveApplication;
-import br.com.foodtosave.config.AppConfig;
 import br.com.foodtosave.dao.AffiliateDAO;
 import br.com.foodtosave.entities.Affiliate;
-import jakarta.servlet.ServletContext;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.AnnotationConfigApplicationContext;
-import org.springframework.context.annotation.Bean;
-import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
