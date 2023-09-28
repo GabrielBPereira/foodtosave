@@ -20,6 +20,7 @@ import org.springframework.data.redis.serializer.RedisSerializationContext;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
 
 import java.io.Serializable;
+import java.time.Duration;
 
 @Configuration
 @AutoConfigureAfter(RedisAutoConfiguration.class)
@@ -32,26 +33,28 @@ public class RedisConfig {
     @Value("${spring.data.redis.port}")
     private int redisPort;
 
+    @Value("${spring.cache.redis.time-to-live}")
+    private long ttl;
     @Bean
     public RedisTemplate<String, Serializable> redisCacheTemplate(LettuceConnectionFactory redisConnectionFactory) {
         RedisTemplate<String, Serializable> template = new RedisTemplate<>();
         template.setKeySerializer(new StringRedisSerializer());
         template.setValueSerializer(new GenericJackson2JsonRedisSerializer());
         template.setConnectionFactory(redisConnectionFactory);
+
         return template;
     }
 
     @Bean
     public CacheManager cacheManager(RedisConnectionFactory factory) {
-        RedisCacheConfiguration config = RedisCacheConfiguration.defaultCacheConfig();
+        RedisCacheConfiguration config = RedisCacheConfiguration.defaultCacheConfig().entryTtl(Duration.ofSeconds(ttl)).disableCachingNullValues();
         RedisCacheConfiguration redisCacheConfiguration = config
                 .serializeKeysWith(
                         RedisSerializationContext.SerializationPair.fromSerializer(new StringRedisSerializer()))
                 .serializeValuesWith(RedisSerializationContext.SerializationPair
                         .fromSerializer(new GenericJackson2JsonRedisSerializer()));
-        RedisCacheManager redisCacheManager = RedisCacheManager.builder(factory).cacheDefaults(redisCacheConfiguration)
+        return RedisCacheManager.builder(factory).cacheDefaults(redisCacheConfiguration)
                 .build();
-        return redisCacheManager;
     }
 
 }

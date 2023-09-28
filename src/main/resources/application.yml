@@ -16,11 +16,11 @@ spring:
   cache:
     type: redis
     redis:
-      time-to-live: 30
+      time-to-live: 10
       cache-null-values: false
   data:
     redis:
-      host: localhost
+      host: cache
       port: 6379
       lettuce:
         pool:
@@ -31,3 +31,9 @@ spring:
 ---
 server:
   port: 8080
+---
+clear:
+  all:
+    cache:
+      fixed:
+        rate:
